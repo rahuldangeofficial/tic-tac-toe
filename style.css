@@ -1,0 +1,95 @@
+*{
+    /* border:1px solid red; */
+    font-family: 'Poppins', sans-serif;
+    
+}
+body{
+    background-image: url(./background.jpeg);
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size:auto;
+    font-family: roboto; 
+} 
+.title-name{
+  font-size: 2rem;
+}
+#display-status{
+  font-size: 1.5rem;
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 20rem;
+    height: 20rem;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto;
+    color: #fff;
+    margin: 40px auto;
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    
+}
+    
+.elem{
+    width: 4rem;
+    height: 4rem;
+    margin:1rem;
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    color:rgba(255, 255, 255, 0.959); 
+    font-size: 3rem;
+    font-weight:normal;
+
+}
+
+.glass-panel {
+    color: #fff;
+    margin: 40px auto;
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+    border-radius: 15px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-wrap: wrap;
+    width: 20rem;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto;
+  }
+
+.glass-button {
+    display: inline-block;
+    padding: 24px 32px;
+    border: 0;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(30px);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin:1rem auto;
+  }
+  
+  .glass-button:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+  
