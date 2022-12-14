@@ -20,8 +20,8 @@ body{
 .container{
     display: flex;
     flex-wrap: wrap;
-    width: 20rem;
-    height: 20rem;
+    width: 16rem;
+    height: 16rem;
     align-content: center;
     align-items: center;
     justify-content: center;
@@ -39,7 +39,7 @@ body{
 .elem{
     width: 4rem;
     height: 4rem;
-    margin:1rem;
+    margin:0.5rem;
     background-color: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 100px;
@@ -65,7 +65,7 @@ body{
     backdrop-filter: blur(10px);
     display: flex;
     flex-wrap: wrap;
-    width: 20rem;
+    width: 16rem;
     align-content: center;
     align-items: center;
     justify-content: center;
