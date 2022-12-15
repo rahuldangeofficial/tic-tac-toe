@@ -1,5 +1,4 @@
-"use strict"; //to prevent unpredictable behavior
-//--------------------------//
+"use strict"; 
 
 const ele0=document.getElementById('ele0');
 const ele1=document.getElementById('ele1');
@@ -12,10 +11,10 @@ const ele7=document.getElementById('ele7');
 const ele8=document.getElementById('ele8');
 const displayStatus=document.getElementById('display-status');
 
-//--------------------------//
-
-let executionSwitch=true;       //to prevent unnecessary execution
-let winCoordinates=['','',''];  //to show win coordinates
+let executionSwitch=true;       
+let winCoordinates=['','','']; 
+let charWon;
+let moveTracker=0;
 
 //"gameBoard" module using IIFE
 
@@ -36,108 +35,32 @@ const gameBoard=(function(){
         if(state[index]===''){
             state[index]=value;
         }
-
         renderState();
-        endStatus();
         winTracker();
     }
-    function endStatus(){             //not used but kept for future updates
-        let flag=true;
-        for(let i=0;i<state.length;i++){
-            if(state[i]===''){
-                flag=false;
+    function patternIdentifier(x,y,z){
+        if(state[x]===''){}else{ 
+            if(state[x]===state[y]&&state[y]===state[z]){
+                charWon=state[x];
+                winCoordinates[0]=x;
+                winCoordinates[1]=y;
+                winCoordinates[2]=z;
             }
         }
-        if(flag){
-            console.log("ended!");
-        }
-        
     }
     function winTracker(){
-        let charWon;
-        
-        let row1=state[0]===state[1]&&state[1]==state[2];
-        if(row1){
-            charWon=state[0];
-            winCoordinates[0]=0;
-            winCoordinates[1]=1;
-            winCoordinates[2]=2;
-        };
-        
-        let row2=state[3]===state[4]&&state[4]==state[5];
-        if(row2){
-            charWon=state[3];
-            winCoordinates[0]=3;
-            winCoordinates[1]=4;
-            winCoordinates[2]=5;
-        };
-        
-        let row3=state[6]===state[7]&&state[7]==state[8];
-        if(row3){
-            charWon=state[6];
-            winCoordinates[0]=6;
-            winCoordinates[1]=7;
-            winCoordinates[2]=8;
-        };
-        
-        let col1=state[0]===state[3]&&state[3]==state[6];
-        if(col1){
-            charWon=state[0];
-            winCoordinates[0]=0;
-            winCoordinates[1]=3;
-            winCoordinates[2]=6;
-        };
-        
-        let col2=state[1]===state[4]&&state[4]==state[7];
-        if(col2){
-            charWon=state[1];
-            winCoordinates[0]=1;
-            winCoordinates[1]=4;
-            winCoordinates[2]=7;
-        };
-        
-        let col3=state[2]===state[5]&&state[5]===state[8];
-        if(col3){
-            charWon=state[2];
-            winCoordinates[0]=2;
-            winCoordinates[1]=5;
-            winCoordinates[2]=8;
-        };
-        
-        let dia1=state[0]===state[4]&&state[4]==state[8];
-        if(dia1){
-            charWon=state[0];
-            winCoordinates[0]=0;
-            winCoordinates[1]=4;
-            winCoordinates[2]=8;
-        };
-        
-        let dia2=state[2]===state[4]&&state[4]==state[6];
-        if(dia2){
-            charWon=state[2];
-            winCoordinates[0]=2;
-            winCoordinates[1]=4;
-            winCoordinates[2]=6;
-        };
-
-        if(state[winCoordinates[0]]===''){ 
-            return;
+        let arr=[0,1,2,3,4,5,6,7,8,0,3,6,1,4,7,2,5,8,0,4,8,2,4,6];
+        let x=0;
+        for(let i=0;i<8;i++){
+            patternIdentifier(arr[x],arr[x+1],arr[x+2]);
+            x+=3;
         }
-
-        if(row1||row2||row3||col1||col2||col3||dia1||dia2){  
+        if(charWon==='O'||charWon==='X'){  
             executionSwitch=false;
-            
             eval(`ele${winCoordinates[0]}.style.color="chartreuse";`);
             eval(`ele${winCoordinates[1]}.style.color="chartreuse";`);
             eval(`ele${winCoordinates[2]}.style.color="chartreuse";`);
-            
             displayStatus.innerHTML=`Player ${charWon} has won!`;
-            
-            if(charWon==='O'){
-                playerOne.incrementScore();
-            }else{
-                playerTwo.incrementScore();
-            }
         }
     }
     function clearState(){
@@ -145,12 +68,10 @@ const gameBoard=(function(){
             state[i]='';
         }
     }
-
     return {
         renderState,
         modifyState,
         winTracker,
-        endStatus,
         clearState
     }
 })();
@@ -158,36 +79,11 @@ const gameBoard=(function(){
 //"player" as factory function
 
 function player(x){
-    let moveCount=0;
-    let score=0;    //not used but kept for future updates
     let value=x;
     function move(index){
         gameBoard.modifyState(index,value);
-        moveCount++;
     }
-    function clearMoveCount(){
-        moveCount=0;
-    }
-    function showMoveCount(){    
-        return moveCount;
-    }
-    function showScore(){
-        return score;
-    }
-    function incrementScore(){
-        score++;
-    }
-    function clearScore(){
-        score=0;
-    }
-    return {
-        move,
-        showMoveCount,
-        clearMoveCount,
-        showScore,
-        incrementScore,
-        clearScore
-    };
+    return {move};
 }
 
 //instances of factory function
@@ -195,11 +91,9 @@ function player(x){
 let playerOne=player('O');   
 let playerTwo=player('X');
 
-
-let moveTracker=0;
 function play(index){
     if(executionSwitch){
-        if(moveTracker%2===0){
+        if(moveTracker%2==0){
             playerOne.move(index);
             if(executionSwitch){
                 displayStatus.innerHTML="Player X's Turn";
@@ -213,23 +107,21 @@ function play(index){
         moveTracker++;
     }
 }
-
 function clearWin(){
-    eval(`ele${winCoordinates[0]}.style.color="rgba(255, 255, 255, 0.959)";`);
-    eval(`ele${winCoordinates[1]}.style.color="rgba(255, 255, 255, 0.959)";`);
-    eval(`ele${winCoordinates[2]}.style.color="rgba(255, 255, 255, 0.959)";`);
-    winCoordinates=['','',''];
+    if(charWon===undefined){}else{
+        eval(`ele${winCoordinates[0]}.style.color="rgba(255, 255, 255, 0.959)";`);
+        eval(`ele${winCoordinates[1]}.style.color="rgba(255, 255, 255, 0.959)";`);
+        eval(`ele${winCoordinates[2]}.style.color="rgba(255, 255, 255, 0.959)";`);
+        winCoordinates=['','',''];
+        charWon=undefined;
+    }
 }
-
 function resetGame(){
     executionSwitch=true;
-    gameBoard.clearState();
-    playerOne.clearScore();
-    playerOne.clearMoveCount();
-    playerTwo.clearScore();
-    playerTwo.clearMoveCount();
-    clearWin();
+    moveTracker=0;
     displayStatus.innerHTML="Player O's Turn";
+    clearWin();
+    gameBoard.clearState();
     gameBoard.renderState();
 }
 
